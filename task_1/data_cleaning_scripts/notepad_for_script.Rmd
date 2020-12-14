@@ -21,9 +21,9 @@ names(dirty_decathlon_data)
 
 
 ```{r} 
-#Need to check this as there seems to be an error, could be important when renaming the columns later.
+#Need to check this as there seems to be an error, could be important when renaming the columns later. Are there spaces at the end of most variable names?
 stopifnot(
-  names(dirty_decathlon_data == c("100m", "Long.jump", "Shot.put", "High.jump", "400m", "110m.hurdle", "Discus", "Pole.vault", "Javeline", "1500m", "Rank", "Points", "Competition"))
+  names(dirty_decathlon_data) == c("100m", "Long.jump", "Shot.put", "High.jump", "400m", "110m.hurdle", "Discus", "Pole.vault", "Javeline", "1500m", "Rank", "Points", "Competition")
 )
 
 ```
@@ -80,6 +80,7 @@ So in terms of these questions,
 1. First and foremost, we need work out how to get rid of these row headings and to create a "Competitor column with cleaned names (i.e no ALL CAPS).
 2. It's a tough call to say whether or not the data should stay long format or should be made wide format. I'm guessing it should stay as it is, although I'm not sure whether or not it would be better to have the data arranged by competitor or left in the current order of ranking and competition. 
 3. Once this decision has been made, I'd say we need to rename the column headers in line with our house style (**STRIKE THAT, SHOULD DO THIS SECOND**).  
+4. Could verify that each variable is within reasonable limits with a function but it hardly seems worth it considering the size of the data set. 
 
 Let's make a start on these and then move from there:
 
@@ -106,8 +107,50 @@ ddd_comptr_no_caps
 2. 
 
 ```{r}
+#Decided to rename columns individually so that I could get everything lower case, with underscore spacing and with metres or seconds added.
+
+ddd_clean_col_names <-
 ddd_comptr_no_caps %>%
-  
+  rename(
+    "100m_(sec)" = "100m",
+    "long_jump_(m)" = "Long.jump",
+    "shot_putt_(m)" = "Shot.put",
+    "high_jump_(m)" = "High.jump",
+    "400m_(sec)" = "400m",
+    "100m_hurdle_(sec)" = "110m.hurdle",
+    "discus_(m)" = "Discus",
+    "pole_vault_(m)" = "Pole.vault",
+    "javeline_(m)" = "Javeline",
+    "1500m_(sec)" = "1500m",
+    rank = Rank,
+    points = Points,
+    competition = Competition
+  )
+
+ddd_clean_col_names
 
 ```
+
+```{r}
+ddd_clean_arrange <-
+ddd_clean_col_names %>%
+  arrange(desc(competition), rank)
+
+ddd_clean_arrange
+```
+```{r}
+ddd_clean_arrange <-
+ddd_clean_arrange %>%
+  select(competitor, competition, rank, points, everything())  
+
+ddd_clean_arrange
+```
+
+Think that should be good enough for us to start on the questions.
+
+```{r}
+
+```
+
+
 
