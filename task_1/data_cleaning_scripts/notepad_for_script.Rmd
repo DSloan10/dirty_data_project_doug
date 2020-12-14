@@ -16,6 +16,20 @@ dirty_decathlon_data
 ```
 
 ```{r}
+names(dirty_decathlon_data)
+```
+
+
+```{r} 
+#Need to check this as there seems to be an error, could be important when renaming the columns later.
+stopifnot(
+  names(dirty_decathlon_data == c("100m", "Long.jump", "Shot.put", "High.jump", "400m", "110m.hurdle", "Discus", "Pole.vault", "Javeline", "1500m", "Rank", "Points", "Competition"))
+)
+
+```
+
+
+```{r}
 view(dirty_decathlon_data)
 ```
 
@@ -65,7 +79,35 @@ So in terms of these questions,
 
 1. First and foremost, we need work out how to get rid of these row headings and to create a "Competitor column with cleaned names (i.e no ALL CAPS).
 2. It's a tough call to say whether or not the data should stay long format or should be made wide format. I'm guessing it should stay as it is, although I'm not sure whether or not it would be better to have the data arranged by competitor or left in the current order of ranking and competition. 
-3. Once this decision has been made, I'd say we need to rename the column headers in line with our house style.  
+3. Once this decision has been made, I'd say we need to rename the column headers in line with our house style (**STRIKE THAT, SHOULD DO THIS SECOND**).  
 
 Let's make a start on these and then move from there:
+
+1.
+
+```{r}
+# Searched help files for "Tools for working with row names"
+
+ddd_rows_heads_rem <-
+rownames_to_column(dirty_decathlon_data, var = "competitor")
+
+ddd_rows_heads_rem
+
+```
+```{r}
+ddd_comptr_no_caps <-
+  ddd_rows_heads_rem %>%
+  mutate(competitor = str_to_title(competitor))
+
+ddd_comptr_no_caps
+
+```
+
+2. 
+
+```{r}
+ddd_comptr_no_caps %>%
+  
+
+```
 
