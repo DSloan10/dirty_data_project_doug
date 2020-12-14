@@ -55,4 +55,17 @@ Analysis questions that need to be answered:
 4. What was the shot-put scores for the top three competitors in each competition?
 5. What was the average points for competitors who ran the 400m in less than 50 seconds     vs. those than ran 400m in more than 50 seconds?
 
+So in terms of these questions, 
+
+1. We'll have to make sure that we match the competitors who participated in each competition and that those that only participated in one competition do not influence things like averages.
+2. Probably won't get onto this because it's being a little bit pernickety, but if we are to go a little bit further with Q3 and consider that it is supposed to be representative of **performance** across the two events, it's noticeable that the latter competition has more points applied to the same ranks. Maybe weighting could be used to counteract this effect, although it may well be that the systems awards greater points for more esteemed events.
+
+
+**Plan of Action**
+
+1. First and foremost, we need work out how to get rid of these row headings and to create a "Competitor column with cleaned names (i.e no ALL CAPS).
+2. It's a tough call to say whether or not the data should stay long format or should be made wide format. I'm guessing it should stay as it is, although I'm not sure whether or not it would be better to have the data arranged by competitor or left in the current order of ranking and competition. 
+3. Once this decision has been made, I'd say we need to rename the column headers in line with our house style.  
+
+Let's make a start on these and then move from there:
 
