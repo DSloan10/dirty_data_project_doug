@@ -1,0 +1,58 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+Let's load in the data first and have a good look at it before working out exactly what needs to be cleaned.
+
+```{r}
+library(tidyverse)
+library(readr)
+library(here)
+
+dirty_decathlon_data <- read_rds(here::here("raw_data/decathlon.rds"))
+                                 
+dirty_decathlon_data
+```
+
+```{r}
+view(dirty_decathlon_data)
+```
+
+```{r}
+glimpse(dirty_decathlon_data)
+```
+
+Cool, looks like it's not too big a data set but this may be lulling us into a false sense of security. Let's take a look at the number of NAs across the board.
+
+```{r}
+ddd_NAs <-
+dirty_decathlon_data %>%
+summarise(across(.fns = ~sum(is.na(.x))))
+
+ddd_NAs
+```
+
+Ok so as suspicious as it seems, NAs don't seem to be the issue here. The data seems to have read in correctly so this is clearly not the issue with this data set. At first glance, the following issues need to be addressed.
+
+Prescribed in task:
+
+1. This data has row names - how do you get rid of them?
+2. This data isn’t tidy
+3. You will want better column header names.
+
+Others noticed:
+
+1. The row names are of representative of competitors. There is some duplication, with some competitors having competed in two competitions (Decaster and Olympic G), details contained in it's own column.
+2. The competitors are named for one competition with in ALL CAPS and for the other in lower case. 
+3. The data contains a mixture of different measurements for different events (time and distance). Think that this just needs to be cleaned up in the column names. One extra is that times for the 1500m would usually be expressed a minute and second format, as would anything above 60 seconds, but maybe it's best to leave this or make sure that it only effects output?
+
+Analysis questions that need to be answered:
+
+1. Who had the longest long jump seen in the data?
+2. What was the average 100m time in each competition?
+3. Who had the highest total points across both competitions?
+4. What was the shot-put scores for the top three competitors in each competition?
+5. What was the average points for competitors who ran the 400m in less than 50 seconds     vs. those than ran 400m in more than 50 seconds?
+
+
