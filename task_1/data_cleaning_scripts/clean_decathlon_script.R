@@ -31,7 +31,7 @@ cleaned_decathlon_data <-
   rename(
     "100m_(sec)" = "100m",
     "long_jump_(m)" = "Long.jump",
-    "shot_putt_(m)" = "Shot.put",
+    "shot_put_(m)" = "Shot.put",
     "high_jump_(m)" = "High.jump",
     "400m_(sec)" = "400m",
     "100m_hurdle_(sec)" = "110m.hurdle",

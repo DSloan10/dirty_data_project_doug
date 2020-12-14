@@ -1,0 +1,53 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(here)
+
+decathlon_data <- read_csv(here::here("clean_data/clean_decathlon_data"))
+
+```
+
+```{r}
+decathlon_data
+```
+
+
+Q1. Who had the longest long jump seen in the data?
+
+```{r}
+decathlon_data %>%
+  arrange(
+    desc(`long_jump_(m)`)
+    ) %>% 
+  slice_max(
+    `long_jump_(m)`
+    ) %>%
+  select(
+    competitor, `long_jump_(m)`
+    )
+```
+
+Q2. What was the average 100m time in each competition?
+
+```{r}
+decathlon_data %>% 
+  group_by(competition) %>%
+  summarise(avg_100m_time = mean(`100m_(sec)`)) %>%
+  arrange(avg_100m_time)
+
+```
+
+
+Q3. Who had the highest total points across both competitions?
+
+
+
+Q4. What was the shot-put scores for the top three competitors in each competition?
+
+
+
+Q5. What was the average points for competitors who ran the 400m in less than 50 seconds vs. those than ran 400m in more than 50 seconds?
