@@ -180,10 +180,58 @@ cc_y2017_candy_data %>%
   names
 ```
 
-Right, so looking at the 2015 data, we've obviously not got anything direct information for which country they are from. But we do have a few things that could indicate which country they are from. In particular, i'm thinking the type of smarties (american or commonwealth = USA or Canada?) and even the degrees of separation questions (low on j.k. rowling and thom yorke = UK?) Don't think the same can be done for gender. I think we'll go with these in terms of inclusion for now. 
-
 ```{r}
-chosen_2015_candy_data <- 
-cc_y2015_candy_data
+cc_y2015_candy_data %>%
+  distinct(please_leave_any_remarks_or_comments_regarding_your_choices)
 ```
 
+Right, so looking at the 2015 data, we've obviously not got anything direct information for which country they are from. But we do have a few things that could indicate which country they are from. In particular, i'm thinking the type of smarties (american or commonwealth = USA or Canada?) and even the degrees of separation questions (low on j.k. rowling and thom yorke = UK?) Don't think the same can be done for gender. I think we'll go with these in terms of inclusion for now plus any other comments. 
+
+```{r} 
+# hasn't quite worked 
+ds_group_count <- function(x){
+  group_by(x) %>% 
+  count(x)
+  return(count(x))
+  }
+```
+
+```{r}
+# plan B
+cc_y2015_candy_data %>%
+  group_by(please_estimate_the_degrees_of_separation_you_have_from_the_following_folks_malala_yousafzai) %>% 
+  count(please_estimate_the_degrees_of_separation_you_have_from_the_following_folks_malala_yousafzai)
+```
+
+```{r} 
+#I know this might be a bit of a pain to drop columns by name, but if there is a problem of ordering or the like, I really don't want to lose the information we need. I've noticed that some of the degrees of separation questions duplicate celebrities, with some of the duplicates not containing values. I've made a wee chunk of code above to double check if there are values and if so how many. 
+
+chosen_cols_2015 <-
+cc_y2015_candy_data %>% 
+  subset(
+    select = -c(
+      please_list_any_items_not_included_above_that_give_you_joy:
+        fill_in_the_blank_imitation_is_a_form_of,
+      please_estimate_the_degree_s_of_separation_you_have_from_the_following_celebrities_jj_abrams:
+        please_estimate_the_degree_s_of_separation_you_have_from_the_following_celebrities_francis_bacon_1561_1626,
+    which_day_do_you_prefer_friday_or_sunday:please_estimate_the_degrees_of_separation_you_have_from_the_following_folks_beyonce_knowles)
+  )
+
+chosen_cols_2015
+
+```
+
+
+```{r}
+cc_y2015_candy_data %>%
+  select(please_estimate_the_degree_s_of_separation_you_have_from_the_following_celebrities_jk_rowling, please_estimate_the_degrees_of_separation_you_have_from_the_following_folks_jk_rowling)
+```
+
+```{r}
+cc_y2015_candy_data %>%
+  group_by(please_estimate_the_degrees_of_separation_you_have_from_the_following_folks_jk_rowling) %>% 
+  count(please_estimate_the_degrees_of_separation_you_have_from_the_following_folks_jk_rowling)
+```
+
+
+When we are cleaning the ages, we should check if there are any numbers typed out for some reason. If not, we should just put in NAs for any values not in realistic range. 
