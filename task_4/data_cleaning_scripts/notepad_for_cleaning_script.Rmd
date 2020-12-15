@@ -1,0 +1,25 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(assertr)
+library(readxl)
+library(here)
+
+y2015_candy_data <- read_xlsx(here::here("raw_data/candy_ranking_data/boing-boing-candy-2015.xlsx"))
+
+y2016_candy_data <- read_xlsx(here::here("raw_data/candy_ranking_data/boing-boing-candy-2016.xlsx"))
+
+y2017_candy_data <- read_xlsx(here::here("raw_data/candy_ranking_data/boing-boing-candy-2017.xlsx"))
+
+```
+
+Woah, dat's a bit more data. Let's have a look.
+
+```{r}
+view(y2015_candy_data)
+```
+

@@ -1,6 +1,7 @@
 library(tidyverse)
 library(readr)
 library(here)
+library(assertr)
 
 dirty_decathlon_data <- read_rds(here::here("raw_data/decathlon.rds"))
 
