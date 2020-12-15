@@ -1842,21 +1842,100 @@ decathlon_data &lt;- read_csv(here::here(&quot;clean_data/clean_decathlon_data&q
 <p>Q2. What was the average 100m time in each competition?</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGVjYXRobG9uX2RhdGEgJT4lIFxuICBncm91cF9ieShjb21wZXRpdGlvbikgJT4lXG4gIHN1bW1hcmlzZShhdmdfMTAwbV90aW1lID0gbWVhbihgMTAwbV8oc2VjKWApKSAlPiVcbiAgYXJyYW5nZShhdmdfMTAwbV90aW1lKVxuXG5gYGAifQ== -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGVjYXRobG9uX2RhdGEgJT4lIFxuICBncm91cF9ieShcbiAgICBjb21wZXRpdGlvblxuICAgICkgJT4lXG4gIHN1bW1hcmlzZShcbiAgICBhdmdfMTAwbV90aW1lID0gbWVhbihgMTAwbV8oc2VjKWApXG4gICAgKSAlPiVcbiAgYXJyYW5nZShhdmdfMTAwbV90aW1lKVxuYGBgIn0= -->
 <pre class="r"><code>decathlon_data %&gt;% 
-  group_by(competition) %&gt;%
-  summarise(avg_100m_time = mean(`100m_(sec)`)) %&gt;%
-  arrange(avg_100m_time)
-</code></pre>
+  group_by(
+    competition
+    ) %&gt;%
+  summarise(
+    avg_100m_time = mean(`100m_(sec)`)
+    ) %&gt;%
+  arrange(avg_100m_time)</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiYHN1bW1hcmlzZSgpYCB1bmdyb3VwaW5nIG91dHB1dCAob3ZlcnJpZGUgd2l0aCBgLmdyb3Vwc2AgYXJndW1lbnQpXG4ifQ== -->
+<pre><code>`summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MiwibmNvbCI6Mn0sInJkZiI6Ikg0c0lBQUFBQUFBQUExMVBPMDRETVJDZDdNYUJMTm9vRW1jZzNhNENDSWtLcFlpZ1JFSWdoU295amdrVy9xeThEcDh1eCtBdXVRSUZCUVUzNEJaWjdJMWRZQmZqTjI5bTNzeTdtYzVPczFrR0FDbWtQUnVSaFlEdWJpK0xjNEJ1WXBNT2RLSHYvamRiUHJUQWtjUDIzeFgyci9tN3FCaTVDdm1VRWx3YnJDMGV1TDdKMGZmUGVuUHhPeG5kZjZhamo2OUlHRWtzYUIySkhoQWxLbXFZWVVwNktzY3Z5L254ZUN6bWhna2FpZlMxZWkyRFVPNkUxalkwVGJPTnR4R082N0F0a05rQ0cxdythdXgwSVI3WlU1VTd3dzRsemorS2hqczZJb1lyNlM1WkZPUnBKWitMa3pPM29hM3ZYdTV4OGgrN25Vbmp0WkRYNmxHNVpKS0c0emwrb053bkEydTVkVnhXbWtrVHJGaTJMbzB5T1BSbFJQSEF0T1pnK3djNE1rRUc5d0VBQUE9PSJ9 -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["competition"],"name":[1],"type":["chr"],"align":["left"]},{"label":["avg_100m_time"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"OlympicG","2":"10.91571"},{"1":"Decastar","2":"11.17538"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[2]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <p>Q3. Who had the highest total points across both competitions?</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGVjYXRobG9uX2RhdGEgJT4lXG4gIGdyb3VwX2J5KFxuICAgIGNvbXBldGl0b3JcbiAgICApICU+JVxuICBzdW1tYXJpc2UoXG4gICAgdG90YWxfcG9pbnRzID0gc3VtKHBvaW50cylcbiAgICApICU+JVxuICBzbGljZV9tYXgodG90YWxfcG9pbnRzKVxuYGBgIn0= -->
+<pre class="r"><code>decathlon_data %&gt;%
+  group_by(
+    competitor
+    ) %&gt;%
+  summarise(
+    total_points = sum(points)
+    ) %&gt;%
+  slice_max(total_points)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiYHN1bW1hcmlzZSgpYCB1bmdyb3VwaW5nIG91dHB1dCAob3ZlcnJpZGUgd2l0aCBgLmdyb3Vwc2AgYXJndW1lbnQpXG4ifQ== -->
+<pre><code>`summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MSwibmNvbCI6Mn0sInJkZiI6Ikg0c0lBQUFBQUFBQUExMVFRVzRDTVF6MEJnSmlCUlNKZCt4ZU9MVEhIaEFQQUNweFEyRkp5Nm9oV1NWQmNPeW4rZzllQkRnaEVSQWZrdkZZWTNzOG42NG0rU29IZ0JhME92aFNoRUMvbHJQaUE2Qk5NTW1nRFQzM243QThSdURJMFZPaHMrQWJMVGlpb1dNL3ovOS80T05GVGlYYmN4T2tKSkI1cGZZTnQ3VlZPakI5cXl3VDYwYlYwcHFrUlUrcll4bmJERndiTitpS2tjNnFCRE1tV1RQZk1zdktiNDE2ekM2SnBLc2FXeXVKSXVJODBrU2M2WVI0TzBpM3liYW9kZ2Y1Vzd5N0FiNThqMEhBMlJNbTk1SGtHbHJSZUQ4dWYycko0KzZDYmJnSXlSQWRlOE5sby9FZzBRbXlwdlNIZXR4UlJNWjdnOHNOYzlQZUg5b0JBQUE9In0= -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["competitor"],"name":[1],"type":["chr"],"align":["left"]},{"label":["total_points"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"Sebrle","2":"17110"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 <p>Q4. What was the shot-put scores for the top three competitors in each competition?</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGVjYXRobG9uX2RhdGEgJT4lIFxuICBmaWx0ZXIoXG4gICAgcmFuayA8PSAzXG4gICAgKSAlPiVcbiAgc2VsZWN0KGNvbXBldGl0b3IsIGNvbXBldGl0aW9uLCByYW5rLCBgc2hvdF9wdXRfKG0pYClcbmBgYCJ9 -->
+<pre class="r"><code>decathlon_data %&gt;% 
+  filter(
+    rank &lt;= 3
+    ) %&gt;%
+  select(competitor, competition, rank, `shot_put_(m)`)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6NiwibmNvbCI6NH0sInJkZiI6Ikg0c0lBQUFBQUFBQUF3dHlpVERtaXVCaVlHQmdabUJtQTVLc1FDWURhMmlJbTY0RkF3TUxFNUREeU1EQ3dBbWlLNERTd2tBR0N4QUxBREViVklJdE9EV3BLQ2NWeW1OeHprbXNoTWw0SnhZVjVKY1JyUTdWWEE3L25NcmNnc3hrZDJMNUxxbkppY1VsaVVVRStRd01mQ0I3N0Q4d2dJRURBNVRtZ05DNHhHSDZIQXhpTkw0ZTZvOXgwQ3NGa2hyZkhQVHZRUGk2SzBDVXBvTk9xOXlPd05ldERycGR0Z1dMcjNPaEJTUnJYbUp1YWpIVXN5eFFRYTdrL055QzFKTE1rbnlZYzdsaElwbjVlYkF3SzByTXk0YXllWW96OGt2aUMwcEw0alZ5TmRGczRDektMOWVEMmNJTHhFd05RT0wvLy8rLzBKMlNuSk5ZREhNS1RKQXJKYkVrVVMrdENLZ2Z5UHVIcG9VOXZ3RGtJcUFtSmxCaVlFWFR6RmlFSmlCUW1nZHlTWXB1Y2tacFhyYXVvVG5JQnJBOEJQQkMyV3hJYkJhSW5Vei9vV2F4d3RKSmFsNTZaaDRzQmJIbUpDYWw1a0E1ZkVBdmczMnNWMUNVbVZjQzh3cFF0Rml2Skw4a01RY1J6amt3RWJEbkdQNEJBSWRjV0s4RUF3QUEifQ== -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["competitor"],"name":[1],"type":["chr"],"align":["left"]},{"label":["competition"],"name":[2],"type":["chr"],"align":["left"]},{"label":["rank"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["shot_put_(m)"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"Sebrle","2":"OlympicG","3":"1","4":"16.36"},{"1":"Clay","2":"OlympicG","3":"2","4":"15.23"},{"1":"Karpov","2":"OlympicG","3":"3","4":"15.93"},{"1":"Sebrle","2":"Decastar","3":"1","4":"14.83"},{"1":"Clay","2":"Decastar","3":"2","4":"14.26"},{"1":"Karpov","2":"Decastar","3":"3","4":"14.77"}],"options":{"columns":{"min":{},"max":[10],"total":[4]},"rows":{"min":[10],"max":[10],"total":[6]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuTkFcbk5BXG5gYGAifQ== -->
+<pre class="r"><code>NA
+NA</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 <p>Q5. What was the average points for competitors who ran the 400m in less than 50 seconds vs. those than ran 400m in more than 50 seconds?</p>
 <!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZGVjYXRobG9uX2RhdGEgJT4lXG4gIGdyb3VwX2J5KFwiNDAwbV91bmRlcl81MF9zZWNzXCIgPSBgNDAwbV8oc2VjKWAgPCA1MCkgJT4lXG4gIHN1bW1hcmlzZShhdmdfcG9pbnRzID0gbWVhbihwb2ludHMpKVxuYGBgIn0= -->
+<pre class="r"><code>decathlon_data %&gt;%
+  group_by(&quot;400m_under_50_secs&quot; = `400m_(sec)` &lt; 50) %&gt;%
+  summarise(avg_points = mean(points))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiYHN1bW1hcmlzZSgpYCB1bmdyb3VwaW5nIG91dHB1dCAob3ZlcnJpZGUgd2l0aCBgLmdyb3Vwc2AgYXJndW1lbnQpXG4ifQ== -->
+<pre><code>`summarise()` ungrouping output (override with `.groups` argument)</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibnJvdyI6MiwibmNvbCI6Mn0sInJkZiI6Ikg0c0lBQUFBQUFBQUExMVFRVTdETUJEY3BIVlJMYlVxOEF1a2hDQ0t4TEVIeEFNUVNMMUZKakVsSXJVajJ3RWtMcnlDTHlDRkQ4QUZmdGF3RHZZQlgrelpzV2QyWjY4dTFxZDBUUUZnQktNSm5nUWhrSnZyeStRY1lCeGpFY0VZcHZaK3h1ZERCSmFrN29iaEE4RGMxcXZ2NDZPdTZ6NVdQNTh2Yi92dlg0RUJFV3pMTllMRklQNGpENVpadHMxYlVYS1ZuMlc1NW9WMkw1UTlidkpHVnNMb3dHaXE1RlBxeldiVzdCV1B2dTkzWWNlaVp0cDM5Q1F0bVdIcG5VSTlWcUZrVHphbWtnSkZzYzFLQW5Ha0FtTFJDanRKbVJUM3JYaElsaWR1T1pGYnpzemgrRCsyUGVQZWVSSG5OZUZpVXdudWg2L1pMYTlkTWNmSVErSzBVYmdSSHdWWm5ScHBtUDlIQzFsN1pnZ0h1MStRUVo3UDR3RUFBQT09In0= -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["400m_under_50_secs"],"name":[1],"type":["lgl"],"align":["right"]},{"label":["avg_points"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"FALSE","2":"7727.167"},{"1":"TRUE","2":"8120.483"}],"options":{"columns":{"min":{},"max":[10],"total":[2]},"rows":{"min":[10],"max":[10],"total":[2]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p><strong>End of Questions</strong></p>
+<!-- rnb-text-end -->
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKYGBge3J9CmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KGhlcmUpCgpkZWNhdGhsb25fZGF0YSA8LSByZWFkX2NzdihoZXJlOjpoZXJlKCJjbGVhbl9kYXRhL2NsZWFuX2RlY2F0aGxvbl9kYXRhIikpCgpgYGAKCmBgYHtyfQpkZWNhdGhsb25fZGF0YQpgYGAKCgpRMS4gV2hvIGhhZCB0aGUgbG9uZ2VzdCBsb25nIGp1bXAgc2VlbiBpbiB0aGUgZGF0YT8KCmBgYHtyfQpkZWNhdGhsb25fZGF0YSAlPiUKICBhcnJhbmdlKAogICAgZGVzYyhgbG9uZ19qdW1wXyhtKWApCiAgICApICU+JSAKICBzbGljZV9tYXgoCiAgICBgbG9uZ19qdW1wXyhtKWAKICAgICkgJT4lCiAgc2VsZWN0KAogICAgY29tcGV0aXRvciwgYGxvbmdfanVtcF8obSlgCiAgICApCmBgYAoKUTIuIFdoYXQgd2FzIHRoZSBhdmVyYWdlIDEwMG0gdGltZSBpbiBlYWNoIGNvbXBldGl0aW9uPwoKYGBge3J9CmRlY2F0aGxvbl9kYXRhICU+JSAKICBncm91cF9ieShjb21wZXRpdGlvbikgJT4lCiAgc3VtbWFyaXNlKGF2Z18xMDBtX3RpbWUgPSBtZWFuKGAxMDBtXyhzZWMpYCkpICU+JQogIGFycmFuZ2UoYXZnXzEwMG1fdGltZSkKCmBgYAoKClEzLiBXaG8gaGFkIHRoZSBoaWdoZXN0IHRvdGFsIHBvaW50cyBhY3Jvc3MgYm90aCBjb21wZXRpdGlvbnM/CgoKClE0LiBXaGF0IHdhcyB0aGUgc2hvdC1wdXQgc2NvcmVzIGZvciB0aGUgdG9wIHRocmVlIGNvbXBldGl0b3JzIGluIGVhY2ggY29tcGV0aXRpb24/CgoKClE1LiBXaGF0IHdhcyB0aGUgYXZlcmFnZSBwb2ludHMgZm9yIGNvbXBldGl0b3JzIHdobyByYW4gdGhlIDQwMG0gaW4gbGVzcyB0aGFuIDUwIHNlY29uZHMgdnMuIHRob3NlIHRoYW4gcmFuIDQwMG0gaW4gbW9yZSB0aGFuIDUwIHNlY29uZHM/</div>
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiUiBOb3RlYm9vayIKb3V0cHV0OiBodG1sX25vdGVib29rCi0tLQoKYGBge3J9CmxpYnJhcnkodGlkeXZlcnNlKQpsaWJyYXJ5KGhlcmUpCgpkZWNhdGhsb25fZGF0YSA8LSByZWFkX2NzdihoZXJlOjpoZXJlKCJjbGVhbl9kYXRhL2NsZWFuX2RlY2F0aGxvbl9kYXRhIikpCgpgYGAKCmBgYHtyfQpkZWNhdGhsb25fZGF0YQpgYGAKCgpRMS4gV2hvIGhhZCB0aGUgbG9uZ2VzdCBsb25nIGp1bXAgc2VlbiBpbiB0aGUgZGF0YT8KCmBgYHtyfQpkZWNhdGhsb25fZGF0YSAlPiUKICBhcnJhbmdlKAogICAgZGVzYyhgbG9uZ19qdW1wXyhtKWApCiAgICApICU+JSAKICBzbGljZV9tYXgoCiAgICBgbG9uZ19qdW1wXyhtKWAKICAgICkgJT4lCiAgc2VsZWN0KAogICAgY29tcGV0aXRvciwgYGxvbmdfanVtcF8obSlgCiAgICApCmBgYAoKUTIuIFdoYXQgd2FzIHRoZSBhdmVyYWdlIDEwMG0gdGltZSBpbiBlYWNoIGNvbXBldGl0aW9uPwoKYGBge3J9CmRlY2F0aGxvbl9kYXRhICU+JSAKICBncm91cF9ieSgKICAgIGNvbXBldGl0aW9uCiAgICApICU+JQogIHN1bW1hcmlzZSgKICAgIGF2Z18xMDBtX3RpbWUgPSBtZWFuKGAxMDBtXyhzZWMpYCkKICAgICkgJT4lCiAgYXJyYW5nZShhdmdfMTAwbV90aW1lKQoKYGBgCgoKUTMuIFdobyBoYWQgdGhlIGhpZ2hlc3QgdG90YWwgcG9pbnRzIGFjcm9zcyBib3RoIGNvbXBldGl0aW9ucz8KCmBgYHtyfQpkZWNhdGhsb25fZGF0YSAlPiUKICBncm91cF9ieSgKICAgIGNvbXBldGl0b3IKICAgICkgJT4lCiAgc3VtbWFyaXNlKAogICAgdG90YWxfcG9pbnRzID0gc3VtKHBvaW50cykKICAgICkgJT4lCiAgc2xpY2VfbWF4KHRvdGFsX3BvaW50cykKYGBgCgoKUTQuIFdoYXQgd2FzIHRoZSBzaG90LXB1dCBzY29yZXMgZm9yIHRoZSB0b3AgdGhyZWUgY29tcGV0aXRvcnMgaW4gZWFjaCBjb21wZXRpdGlvbj8KCmBgYHtyfQpkZWNhdGhsb25fZGF0YSAlPiUgCiAgZmlsdGVyKAogICAgcmFuayA8PSAzCiAgICApICU+JQogIHNlbGVjdChjb21wZXRpdG9yLCBjb21wZXRpdGlvbiwgcmFuaywgYHNob3RfcHV0XyhtKWApCiAgCmBgYAoKUTUuIFdoYXQgd2FzIHRoZSBhdmVyYWdlIHBvaW50cyBmb3IgY29tcGV0aXRvcnMgd2hvIHJhbiB0aGUgNDAwbSBpbiBsZXNzIHRoYW4gNTAgc2Vjb25kcyB2cy4gdGhvc2UgdGhhbiByYW4gNDAwbSBpbiBtb3JlIHRoYW4gNTAgc2Vjb25kcz8KCmBgYHtyfQpkZWNhdGhsb25fZGF0YSAlPiUKICBncm91cF9ieSgiNDAwbV91bmRlcl81MF9zZWNzIiA9IGA0MDBtXyhzZWMpYCA8IDUwKSAlPiUKICBzdW1tYXJpc2UoYXZnX3BvaW50cyA9IG1lYW4ocG9pbnRzKSkKCmBgYAoKKipFbmQgb2YgUXVlc3Rpb25zKio=</div>
 
 
 

@@ -35,8 +35,12 @@ Q2. What was the average 100m time in each competition?
 
 ```{r}
 decathlon_data %>% 
-  group_by(competition) %>%
-  summarise(avg_100m_time = mean(`100m_(sec)`)) %>%
+  group_by(
+    competition
+    ) %>%
+  summarise(
+    avg_100m_time = mean(`100m_(sec)`)
+    ) %>%
   arrange(avg_100m_time)
 
 ```
@@ -44,10 +48,36 @@ decathlon_data %>%
 
 Q3. Who had the highest total points across both competitions?
 
+```{r}
+decathlon_data %>%
+  group_by(
+    competitor
+    ) %>%
+  summarise(
+    total_points = sum(points)
+    ) %>%
+  slice_max(total_points)
+```
 
 
 Q4. What was the shot-put scores for the top three competitors in each competition?
 
-
+```{r}
+decathlon_data %>% 
+  filter(
+    rank <= 3
+    ) %>%
+  select(competitor, competition, rank, `shot_put_(m)`)
+  
+```
 
 Q5. What was the average points for competitors who ran the 400m in less than 50 seconds vs. those than ran 400m in more than 50 seconds?
+
+```{r}
+decathlon_data %>%
+  group_by("400m_under_50_secs" = `400m_(sec)` < 50) %>%
+  summarise(avg_points = mean(points))
+
+```
+
+**End of Questions**
