@@ -17,9 +17,68 @@ y2017_candy_data <- read_xlsx(here::here("raw_data/candy_ranking_data/boing-boin
 
 ```
 
-Woah, dat's a bit more data. Let's have a look.
+Woah, dat's a bit more data. Let's have a look. Also need to have a look at this message "New names:
+* `` -> ...114"
 
 ```{r}
 view(y2015_candy_data)
+```
+
+```{r}
+view(y2016_candy_data)
+```
+
+```{r}
+view(y2017_candy_data)
+```
+
+```{r}
+glimpse(y2015_candy_data)
+```
+
+```{r}
+glimpse(y2016_candy_data)
+```
+
+```{r}
+glimpse(y2017_candy_data)
+```
+
+Ok, so first of all, the message above refers to the fact that some columns have no names in the data so during the read in R has assigned some names for the columns. Looks like it refers specifically to column 114 so should have a look at this.
+
+First thoughts:
+
+1. Have a look at column 114 in each of the data sets.
+2. We'll need to find a way to join each of the data sets. At first glance it looks like a couple of the datasets share a country column. Before deciding where to get cleaning first, we need to work out where the joins could occur.
+3. Still not sure if the data is in the right format (i.e wide or long). There's a ton of columns but not sure how it would look if pivotted longer. First thoughts think it might not work. 
+4. The column names are in a pretty bad way. I think we need to find a way to get everything in snake_case and also get columns with a similar names to have homogenized ones. 
+
+Hints from notes:
+
+1. You’ll need to combine these three datasets together.
+2. The column country is particularly messy, you will likely need to do some ‘hard coding’ here!
+
+After reading the extra info about the data:
+
+1. It's mentioned that for the 2015 data there is no option for a "MEH" response.
+2. There's loads of links to twitter and github with analysis published by other people. Could be really great for ideas is stuck. 
+
+And after reading the questions: 
+
+1. We're looking at a lot of totals (count) in opening questions. 
+2. The data will probably need to be lengthened once we have all performed the join. So, hopefully, we can have years along the y axis of the table? Actually, now I think about it I'm not so sure. Let's just go for the fact that *something* will need to be done once we have a mammoth amount of columns. Or maybe before the join?
+3. Need to really get a good idea of all the column names and where exactly we can get a join. Also, in line with the questioning, we should really think about what data we columns we can straight up get rid of. I'm sure that this is going to be beneficial, but I'm also a bit worried about getting rid of data that may have ended up in wrong column. Can do checks on this before deleting though. 
+
+
+```{r}
+names(y2015_candy_data)
+```
+
+```{r}
+names(y2016_candy_data)
+```
+
+```{r}
+names(y2017_candy_data)
 ```
 
