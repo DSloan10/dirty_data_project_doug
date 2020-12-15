@@ -8,6 +8,7 @@ library(tidyverse)
 library(assertr)
 library(readxl)
 library(here)
+library(janitor)
 
 y2015_candy_data <- read_xlsx(here::here("raw_data/candy_ranking_data/boing-boing-candy-2015.xlsx"))
 
@@ -80,5 +81,109 @@ names(y2016_candy_data)
 
 ```{r}
 names(y2017_candy_data)
+```
+
+After reviewing the notes, the following other ideas come to mind:
+
+1. Should we just use janitor for this one in order to at least get the column names into better order?
+
+2. We need to check on the amount of NA's, work out what type they are (hopefully not MNARs!) and then pick one of the following strategies:
+  a) Drop the NAs
+  b) Replace the NA values with something else
+  c) Just leave them alone.
+  
+  No matter what the decision is, it should be justified.
+  
+3. Remember the three fundamental rules defining Tidy Data and then try to make sure your data abides by them:
+  a) Each varible must have its own column
+  b) Each observation should have its own row
+  c) Each value must have it's own cell
+  
+  Allow these to guide you decisions on pivoting etc.
+  
+
+**Right let's have do a little more investigation and then see what we can come up with. 
+Start with Na's 
+
+```{r}
+y2015_candy_data %>%
+summarise(across(.fns = ~sum(is.na(.x))))
+```
+
+```{r}
+y2016_candy_data %>%
+summarise(across(.fns = ~sum(is.na(.x))))
+```
+
+```{r}
+y2017_candy_data %>%
+  summarise(across(.fns = ~sum(is.na(.x))))
+```
+
+Right, so we've got a significant amount of Na's, but I'm guessing since the first questsion tells us *not* to count any nas that means that we shouldn't replace them with anything but that we should keep them in by the time we get to that question. With this in mind, I'm deciding to leave the NAs in for now.
+
+Think I'm going to go for cleaning the column names now. 
+
+```{r}
+cc_y2015_candy_data <-
+  clean_names(y2015_candy_data)
+
+cc_y2015_candy_data
+```
+
+```{r}
+cc_y2016_candy_data <-
+  clean_names(y2016_candy_data)
+
+cc_y2016_candy_data
+```
+
+```{r}
+cc_y2017_candy_data <-
+  clean_names(y2017_candy_data)
+
+cc_y2017_candy_data
+```
+
+Cool, that's looking a bit better now. Think that the next thing to do is to work out which columns can be dropped from all of the columns. The questions should definitely dictate this. I'm planning on doing this individually for each and then year before any join. Not sure if this is the right way to go about it but it's the way i'm feeling most comfortable with to be able to understand the process that is needed. Also will need to make sure that data hasn't gone into the wrong column before deleted columns. 
+
+```{r}
+cc_y2016_candy_data %>%
+  distinct(which_country_do_you_live_in)
+
+cc_y2016_candy_data %>%
+  distinct(which_state_province_county_do_you_live_in)
+```
+
+```{r}
+cc_y2017_candy_data %>%
+  distinct(q4_country)
+
+cc_y2017_candy_data %>%
+  distinct(q5_state_province_county_etc)
+```
+
+Ok, it looks like we've not got any countries lingering in the county/state columns so I think we can add this to the list that we take out. This means, in my mind, that we can go ahead and take out the variables from each of the datasets that we don't need. Anything that is a candy or gives us some sort of information on age, gender or country is what we need to hold onto. Also anything that might allow us to fill in the blanks we have in terms of these variables.
+
+```{r}
+cc_y2015_candy_data %>%
+  names()
+```
+
+```{r}
+cc_y2016_candy_data %>% 
+  names()
+```
+
+```{r}
+cc_y2017_candy_data %>% 
+  names
+```
+
+Right, so looking at the 2015 data, we've obviously not got anything direct information for which country they are from. But we do have a few things that could indicate which country they are from. In particular, i'm thinking the type of smarties (american or commonwealth = USA or Canada?) and even the degrees of separation questions (low on j.k. rowling and thom yorke = UK?) Don't think the same can be done for gender. I think we'll go with these in terms of inclusion for now. 
+
+```{r}
+chosen_2015_candy_data <- 
+cc_y2015_candy_data
 ```
 
