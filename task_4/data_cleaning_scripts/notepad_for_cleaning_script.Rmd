@@ -22,18 +22,6 @@ Woah, dat's a bit more data. Let's have a look. Also need to have a look at this
 * `` -> ...114"
 
 ```{r}
-view(y2015_candy_data)
-```
-
-```{r}
-view(y2016_candy_data)
-```
-
-```{r}
-view(y2017_candy_data)
-```
-
-```{r}
 glimpse(y2015_candy_data)
 ```
 
@@ -211,9 +199,7 @@ cc_y2015_candy_data %>%
   subset(
     select = -c(
       timestamp,
-      please_list_any_items_not_included_above_that_give_you_joy:
-        fill_in_the_blank_imitation_is_a_form_of,
-      please_estimate_the_degree_s_of_separation_you_have_from_the_following_celebrities_jj_abrams:
+      please_leave_any_remarks_or_comments_regarding_your_choices:
         please_estimate_the_degree_s_of_separation_you_have_from_the_following_celebrities_francis_bacon_1561_1626,
     which_day_do_you_prefer_friday_or_sunday:please_estimate_the_degrees_of_separation_you_have_from_the_following_folks_beyonce_knowles)
   )
@@ -236,7 +222,6 @@ cc_y2016_candy_data %>%
     select = -c(
       timestamp,
       which_state_province_county_do_you_live_in,
-      person_of_interest_season_3_dvd_box_set_not_including_disc_4_with_hilarious_outtakes,
       please_list_any_items_not_included_above_that_give_you_joy:york_peppermint_patties_ignore)
   )
 
@@ -295,24 +280,114 @@ chosen_cols_2016 %>%
 ```
 
 ```{r}
+#Here, I added ids and years to each datasets. I also made sure that any observations that had no values in any variable were removed from the datasets. Looks like this only affected the 2017 data.
 
 cc_id_2015 <-
 chosen_cols_2015 %>%
+  filter_all(any_vars(!is.na(.))) %>%
   mutate(year = 2015) %>%
   tibble::rowid_to_column("id")
 
 cc_id_2016 <-
 chosen_cols_2016 %>%
+  filter_all(any_vars(!is.na(.))) %>% 
   mutate(year = 2016) %>%
   tibble::rowid_to_column("id")
 
 cc_id_2017 <-
 chosen_cols_2017 %>% 
+  filter_all(any_vars(!is.na(.))) %>%
   mutate(year = 2017) %>%
   tibble::rowid_to_column("id")
 
 cc_id_2015
 cc_id_2016
 cc_id_2017
+```
+
+
+
+
+
+```{r}
+cc_pivot_2015 <-
+cc_id_2015 %>%
+  pivot_longer(
+    cols = c(butterfinger:necco_wafers), 
+    names_to = "candy_type", 
+    values_to = "rating"
+    )
+
+cc_pivot_2015
+```
+
+```{r}
+cc_pivot_2016 <-
+cc_id_2016 %>%
+  pivot_longer(
+    cols = c(x100_grand_bar: york_peppermint_patties),
+    names_to = "candy_type",
+    values_to = "rating"  
+    )
+
+cc_pivot_2016
+```
+
+```{r}
+cc_pivot_2017 <-
+cc_id_2017 %>%
+  pivot_longer(
+    cols = c(q6_100_grand_bar: q6_york_peppermint_patties),
+    names_to = "candy_type",
+    values_to = "rating"
+  ) %>%
+  mutate(candy_type = str_remove(candy_type, fixed("q6_")))
+
+cc_pivot_2017
+```
+
+
+```{r}
+cc_pivot_2015_rename <-
+  cc_pivot_2015 %>% 
+  rename(
+    age = how_old_are_you,
+    going_out = are_you_going_actually_going_trick_or_treating_yourself,
+  ) 
+
+cc_pivot_2015_rename
+```
+
+```{r}
+cc_pivot_2016_rename <-
+  cc_pivot_2016 %>% 
+  rename(
+    going_out = are_you_going_actually_going_trick_or_treating_yourself,
+    gender = your_gender,
+    age = how_old_are_you,
+    country = which_country_do_you_live_in
+  )
+
+cc_pivot_2016_rename
+```
+
+```{r}
+cc_pivot_2017_rename <-
+  cc_pivot_2017 %>% 
+  rename(
+    going_out = q1_going_out,
+    gender = q2_gender,
+    age = q3_age,
+    country = q4_country
+  )
+
+cc_pivot_2017_rename
+```
+
+```{r}
+joined_candy <-
+bind_rows(cc_pivot_2015_rename, cc_pivot_2016_rename, cc_pivot_2017_rename)
+
+joined_candy
 ```
 
