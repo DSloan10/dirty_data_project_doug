@@ -526,9 +526,45 @@ jc_age_extras %>%
 ```{r}
 #Before getting recoding the countries, I want to get rid of the numeric and nonsense values
 
+clean_candy_complete <-
 jc_age_extras %>%
   mutate(
-    country = replace(country,country == "[Uu]+[Ss]+[Aa]", "USA")
+    country = replace(country, country %in% c(
+      "usa", "US", "United States of America", "uSA", "united states", "United States", "us", "USSA", "U.S.A", "Murica", "USA!", "Usa", "U.S.", "Us", "Units States", "United states", "USA USA USA", "the best one - usa", "USA! USA! USA!",
+"Cascadia", "u.s.", "The Yoo Ess of Aaayyyyyy", "united states of america", "USA!!!!!!", "USA! USA!", "United Sates", "Sub-Canadian North America... 'Merica", "Trumpistan", "U.s.", 'Merica', "UNited States", "United Stetes", "america", "The republic of Cascadia", "USA USA USA USA", "United States of America", "United State", "United staes", "u.s.a.", "USAUSAUSA","US of A", "Unites States", "The United States", "Unied States", "U S", "The United States of America", "unite states", "cascadia", "USA? Hard to tell anymore..", "‘merica", "usas", "Pittsburgh", "New York", "California", "USa", "I pretend to be from Canada, but I am really from the United States.", "United Stated", "Ahem….Amerca", "New Jersey", "United ststes", "United Statss", "murrika", "USAA", "Alaska", "united States", "u s a", "United Statea", "united ststes", "USA USA USA!!!!", "U.S.A.", "USA (I think but it's an election year so who can really tell)", "America", "United States of America", "'merica", "Ahem....Amerca", "North Carolina", "United States of America ")
+      ,"USA")
+)%>%
+  mutate(
+    country = replace(country, country %in% c(
+      "canada", "Canada`", "Can", "CANADA")
+      ,"Canada"
+    )
+  )%>% 
+  mutate(
+    country = replace(country, country %in% c(
+      "uk", "United Kingdom", "England", "england", "United Kindom", "U.K.", "Uk", "Scotland", "United kingdom")
+      ,"UK"
   )
+  ) %>%
+  mutate(
+    country = replace(country, country %in% c(
+      "Japan", "france", "A tropical island south of the equator", "Switzerland", "Korea", "belgium", "croatia", "Portugal", "españa", "Panama", "France", "Australia", "hungary", "Austria", "New Zealand", "Germany", "Mexico", "Brasil", "South Korea", "Philippines", "sweden", "The Netherlands", "Finland", "China", "germany", "kenya", "Netherlands", "netherlands", "UAE", "finland", "Europe", "Costa Rica", "Greece", "australia", "Canae", "Ireland", "South africa", "Iceland", "Denmark", "Indonesia", "Singapore", "Taiwan", "hong kong", "spain", "Sweden", "Hong Kong")
+      ,"Other country") 
+  ) %>% 
+  mutate(
+    country = replace(country, !country %in% c("Canada", "USA", "UK", "Other country")
+      , NA
+  )
+  )
+
+```
+
+```{r}
+clean_candy_complete %>%
+  distinct(country)
+```
+
+```{r}
+clean_candy_complete
 ```
 
