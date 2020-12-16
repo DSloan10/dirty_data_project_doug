@@ -210,6 +210,7 @@ chosen_cols_2015 <-
 cc_y2015_candy_data %>% 
   subset(
     select = -c(
+      timestamp,
       please_list_any_items_not_included_above_that_give_you_joy:
         fill_in_the_blank_imitation_is_a_form_of,
       please_estimate_the_degree_s_of_separation_you_have_from_the_following_celebrities_jj_abrams:
@@ -219,6 +220,46 @@ cc_y2015_candy_data %>%
 
 chosen_cols_2015
 
+```
+
+```{r}
+cc_y2016_candy_data %>% 
+  names()
+```
+
+```{r}
+#Chosen columns to go in
+
+chosen_cols_2016 <-
+cc_y2016_candy_data %>%
+  subset(
+    select = -c(
+      timestamp,
+      which_state_province_county_do_you_live_in,
+      person_of_interest_season_3_dvd_box_set_not_including_disc_4_with_hilarious_outtakes,
+      please_list_any_items_not_included_above_that_give_you_joy:york_peppermint_patties_ignore)
+  )
+
+chosen_cols_2016
+```
+
+```{r}
+cc_y2017_candy_data %>% 
+  names
+```
+
+```{r}
+# Columns chosen for 2017
+chosen_cols_2017 <-
+cc_y2017_candy_data %>%
+  subset(
+    select = -c(
+      internal_id,
+      q5_state_province_county_etc,
+      q7_joy_other:click_coordinates_x_y)
+  )
+    
+chosen_cols_2017
 ```
 
 
@@ -235,3 +276,43 @@ cc_y2015_candy_data %>%
 
 
 When we are cleaning the ages, we should check if there are any numbers typed out for some reason. If not, we should just put in NAs for any values not in realistic range. 
+
+Tomorrow, before the join, we rename the columns, or just match them up with those contained in other datasets. We should also think about sticking in an extra year/idea column for now which will allow us to make sure everthing is working.  
+
+
+```{r}
+full_join(chosen_cols_2015, chosen_cols_2016)
+```
+
+```{r}
+chosen_cols_2015 %>% 
+names()
+```
+
+```{r}
+chosen_cols_2016 %>%
+  names
+```
+
+```{r}
+
+cc_id_2015 <-
+chosen_cols_2015 %>%
+  mutate(year = 2015) %>%
+  tibble::rowid_to_column("id")
+
+cc_id_2016 <-
+chosen_cols_2016 %>%
+  mutate(year = 2016) %>%
+  tibble::rowid_to_column("id")
+
+cc_id_2017 <-
+chosen_cols_2017 %>% 
+  mutate(year = 2017) %>%
+  tibble::rowid_to_column("id")
+
+cc_id_2015
+cc_id_2016
+cc_id_2017
+```
+
