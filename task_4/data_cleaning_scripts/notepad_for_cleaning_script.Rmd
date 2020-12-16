@@ -390,4 +390,73 @@ bind_rows(cc_pivot_2015_rename, cc_pivot_2016_rename, cc_pivot_2017_rename)
 
 joined_candy
 ```
+Right, now that we've got the join done, let's go through each of the columns and make sure that everything is clean (enough!)
+
+```{r}
+joined_candy %>%
+  distinct(age)
+```
+
+```{r}
+#So by the look of it we want to retain all integer and convert all numbers with decimals to the closest integer. We also want to make sure that the ages are within a certain realistic age range. 
+
+pars_exper <-
+joined_candy %>% 
+  mutate(age = parse_guess(age))
+  
+```
+
+```{r}
+pars_exper %>%
+  distinct(age)
+```
+
+```{r}
+integer_exper <-
+joined_candy %>% 
+  mutate(age = as.integer(age))
+
+```
+
+```{r}
+integer_exper %>% 
+  distinct(age)
+```
+
+```{r}
+finish_exper <-
+integer_exper %>%
+  mutate(age = replace(age, age < 4 | age > 120, NA))
+```
+
+```{r}
+#So by the look of it we want to retain all integer and convert all numbers with decimals to the closest integer. We also want to make sure that the ages are within a certain realistic age range. 
+
+jc_age_done <-
+joined_candy %>% 
+  mutate(age = as.integer(age)) %>% 
+  mutate(age = replace(age, age < 4 | age > 120, NA))
+
+jc_age_done %>% 
+distinct(age)
+```
+
+```{r}
+jc_age_done %>%
+  group_by(going_out) %>% 
+  summarise(count = n()
+            )
+```
+
+```{r} 
+#Right, so it looks like there are a couple of candies that are repeated in different forms. I'm going to keep these the way they are right now and then maybe provide alternativer answers in the analysis i.e. if we consider "anonymous_brown_globs" as mary_janes as suggested then maybe we can amalgamate these scores. We would need to find a way of making sure that doublecounting wasn't involved. ie. id 3 from 2015 cannot register two votes for both names of mary janes. 
+
+jc_age_done %>%
+  distinct(candy_type) %>%
+  arrange(candy_type)
+```
+
+```{r}
+#This is the biggie, let's see what we can do with the countries
+```
 
