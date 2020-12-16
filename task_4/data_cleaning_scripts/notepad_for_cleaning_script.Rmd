@@ -460,3 +460,75 @@ jc_age_done %>%
 #This is the biggie, let's see what we can do with the countries
 ```
 
+```{r}
+jc_age_done %>%
+  distinct(country)
+```
+
+```{r}
+num_for_country <-
+jc_age_done %>% 
+  mutate(country_num_detect = str_detect(country, "[0-9]+[0-9]"))
+
+num_for_country
+```
+
+```{r}
+num_changed_for_country <-
+num_for_country %>%
+  mutate(age = if_else(country_num_detect == TRUE, country, age))
+
+num_changed_for_country
+```
+
+```{r}
+num_changed_for_country %>% 
+  distinct(age)
+
+```
+
+```{r}
+#Given up on this, just going to hard code the misplaced ages in. 
+num_for_country_hard_code <-
+jc_age_done %>% 
+  mutate(country_num_detect = str_detect(country, "[0-9]+[0-9]")) %>% 
+  filter(country_num_detect == TRUE) %>% 
+  select(id, year, country)
+
+num_for_country_hard_code
+```
+
+```{r}
+#Hardcoding the replacement ages
+jc_age_extras <-
+jc_age_done %>% 
+  mutate(
+    age = replace(age, id == 117 & year == 2016, 51),
+    age = replace(age, id == 303 & year == 2016, 47),
+    age = replace(age, id == 622 & year == 2016, 54),
+    age = replace(age, id == 623 & year == 2016, 54),
+    age = replace(age, id == 692 & year == 2016, 44),
+    age = replace(age, id == 829 & year == 2016, 45),
+    age = replace(age, id == 1101 & year == 2016, 30),
+    age = replace(age, id == 186 & year == 2017, 35),
+    age = replace(age, id == 558 & year == 2017, 46),
+    age = replace(age, id == 728 & year == 2017, 45),
+  )
+
+jc_age_extras
+```
+
+```{r}
+jc_age_extras %>%
+  distinct(country)
+```
+
+```{r}
+#Before getting recoding the countries, I want to get rid of the numeric and nonsense values
+
+jc_age_extras %>%
+  mutate(
+    country = replace(country,country == "[Uu]+[Ss]+[Aa]", "USA")
+  )
+```
+
