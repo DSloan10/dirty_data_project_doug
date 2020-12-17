@@ -7,8 +7,15 @@ output: html_notebook
 library(tidyverse)
 library(here)
 
-candy_data <- read_csv(here::here("clean_data/clean_candy_script.csv"))
+candy_data <- read_csv(here::here("clean_data/clean_candy_data.csv"))
 ```
+
+```{r}
+candy_data %>%
+distinct(gender)
+```
+
+
 
 Q1. What is the total number of candy ratings given across the three years. (number of candy ratings, not number of raters. Don’t count missing values)
 
@@ -103,8 +110,70 @@ For the next three questions, count despair as -1, joy as +1 and meh as 0.
 
 Q6. What was the most popular candy bar by this rating system for each gender in the dataset?
 
+```{r}
+num_rated_candy <-
+candy_data %>% 
+  drop_na(rating) %>% 
+  mutate(score = case_when(
+    rating == "JOY" ~ 1,
+    rating == "DESPAIR" ~ (-1),
+    rating == "MEH" ~ 0))
 
+```
+
+
+```{r}
+gender_group <-
+num_rated_candy %>%
+  select(gender, candy_type, score) %>% 
+  group_by(candy_type, gender) %>% 
+  summarise(total_score = sum(score))
+
+gender_group
+```
+
+```{r}
+#Still getting "any_full_size_candy_bar" here so decided to take the top three until we have a specific type of candy for each
+gender_group %>%
+  group_by(gender) %>% 
+  slice_max(total_score, n = 3)
+```
 
 Q7. What was the most popular candy bar in each year?
 
+```{r}
+year_group <-
+num_rated_candy %>%
+  select(year, candy_type, score) %>% 
+  group_by(candy_type, year) %>% 
+  summarise(total_score = sum(score))
+
+year_group
+```
+
+```{r}
+#Same again here
+year_group %>%
+  group_by(year) %>% 
+  slice_max(total_score, n = 3)
+```
+
+
 Q8. What was the most popular candy bar by this rating for people in US, Canada, UK and all other countries?
+
+```{r}
+country_group <-
+num_rated_candy %>%
+  select(country, candy_type, score) %>% 
+  group_by(candy_type, country) %>% 
+  summarise(total_score = sum(score))
+
+country_group
+```
+
+```{r}
+country_group %>%
+  group_by(country) %>% 
+  slice_max(total_score, n = 3)
+```
+
