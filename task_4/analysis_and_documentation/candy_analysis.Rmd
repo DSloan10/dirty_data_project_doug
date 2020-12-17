@@ -1,0 +1,110 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(tidyverse)
+library(here)
+
+candy_data <- read_csv(here::here("clean_data/clean_candy_script.csv"))
+```
+
+Q1. What is the total number of candy ratings given across the three years. (number of candy ratings, not number of raters. Don’t count missing values)
+
+```{r}
+candy_data %>%
+  summarise(ratings_count = sum(!is.na(candy_data$rating)))
+  
+```
+
+
+Q2. What was the average age of people who are going out trick or treating and the average age of people 3. not going trick or treating?
+
+```{r}
+#Checking the NAs
+candy_data %>%
+  summarise(age_NAs = sum(is.na(candy_data$age)))
+```
+
+```{r}
+#Two different ways of getting the answer without NAs
+candy_data %>%
+  filter(!is.na(age), (!is.na(going_out))) %>%
+  group_by(going_out) %>% 
+  summarise(round(mean(age)))
+```
+
+```{r}
+candy_data %>%
+  drop_na(age, going_out) %>%
+  group_by(going_out) %>%
+  summarise(round(mean(age)))
+```
+
+```{r}
+#Calculating the mean with medians in place of NAs. 
+candy_data %>%
+  drop_na(going_out) %>%
+  mutate(age = coalesce(age, median(age, na.rm = TRUE))) %>%
+  group_by(going_out) %>%
+  summarise(round(mean(age)))
+```
+
+Q3. For each of joy, despair and meh, which candy bar revived the most of these ratings?
+
+```{r} 
+#Currently doing all these questions with certain candies not put together (i.e, x100_grand_bar = 100_grand_bar. Can add put these together easily in the code if need be later and this analysis should still work, but with potentially different results)
+
+candy_rankings <-
+candy_data %>%
+  drop_na(rating) %>%
+  group_by(candy_type) %>% 
+  summarise(
+    joy = sum(rating == "JOY"),
+    despair = sum(rating == "DESPAIR"),
+    meh = sum(rating == "MEH")
+    )
+
+candy_rankings
+```
+
+```{r}
+candy_rankings %>%
+  slice_max(joy)
+  
+candy_rankings %>%
+  slice_max(despair) 
+
+candy_rankings %>%
+  slice_max(meh)
+
+```
+
+```{r}
+# Any full-size candy bar seems quite generic, probably the reason for the number of positive responses. Maybe better to check the best rated specific candy
+
+candy_rankings %>%
+  arrange(desc(joy)) %>%
+  slice(2)
+
+```
+
+
+Q4. How many people rated Starburst as despair?
+
+```{r}
+candy_rankings %>% 
+  filter(candy_type == "starburst") %>%
+  select(candy_type, despair)
+```
+
+For the next three questions, count despair as -1, joy as +1 and meh as 0.
+
+Q6. What was the most popular candy bar by this rating system for each gender in the dataset?
+
+
+
+Q7. What was the most popular candy bar in each year?
+
+Q8. What was the most popular candy bar by this rating for people in US, Canada, UK and all other countries?
