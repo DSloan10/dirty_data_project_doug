@@ -56,4 +56,4 @@ cleaned_decathlon_data <-
     competitor, competition, rank, points, everything()
     ) 
 
-write_csv(cleaned_decathlon_data,"clean_data/clean_decathlon_data")
+write_csv(cleaned_decathlon_data,(here::here("clean_data/clean_decathlon_data.csv")))
