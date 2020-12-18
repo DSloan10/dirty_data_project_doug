@@ -1,0 +1,60 @@
+---
+title: "Task 4 - Candy Dataset - Project Overview"
+output: html_document
+---
+
+
+
+
+
+##### **A brief introduction to the dataset**
+
+The datasets are what looks to be survey data regarding people's appreciation of different types of candy given during trick or treating. There are three different datasets from three different years: 2015; 2016; and 2017. Some of the datasets contain personal details such as gender, country of origin, state/county and age. However, there is only one dataset that contains any sort of id column and this is marked as only for internal use. 
+
+
+#####  **A list of any assumptions you have made**
+
+Along with the fact that there are no unique details attached to each observation, it is assumed that there is no way to show survey respondents from one year also being survey respondents from another I assumed that the data is in wide format given the sheer number of columns being attributed to different candies. However, given that pivoting longer on candy_type would create a huge amount of observations, I was confused early on as to whether this would be the best thing to do. I am glad I did as the analysis would have been pretty difficult if the data was not in this format. I also assumed that a number of columns where of no need to the analysis and could be removed, although I thought about using values from some of these to extrapolate information on other missing values (i.e. small degrees of separation from someone in the UK = living in UK?). Finally, I assumed that NAs could be retained in the cleaned data and then removed as appropriate when any analysis was being carried out.
+
+
+#####  **The steps you took to clean the data (you don’t need to write out in detail every step, but a combination of commented code chunks with surrounding overall explanations would be great).**
+
+I first read in the data and cleaned the column headings with janitor. I then decided on which columns to retain and removed the rest for each dataset. Because I wanted to keep track of the observations from different years after the join, I added year and id columns. I then pivoted the datasets longer individually on the candy_type column so that the number of columns was dramatically reduced. After some renaming of common variables, I bound the datasets. To clean the data, I'm sorry to say I had to manually rename the numerous different country values and some of the age values. I finished off by arranging the data and writing this to a csv.
+
+
+#####  **The answers to the questions presented in the task brief**
+
+**Q1.** 772352
+
+**Q2.** Going out Trick or Treating: Avg Age 35
+        *Not* going our Trick or Treating : Avg Age 39
+
+**Q3.** Joy = "any_full_sized_candy_bar" or, for specific candy "reese_s_peanut_butter_cups"
+        Despair = "broken_glow_stick"
+        Meh = "lollipops"
+
+**Q4.** 1990
+
+**Q6.** Female = "any_full_sized_candy_bar" (or spec candy: "reese_s_peanut_butter_cups")
+        Male = "any_full_sized_candy_bar" (or spec candy: "reese_s_peanut_butter_cups")
+        Other = "any_full_sized_candy_bar" (or spec candy: "twix")
+        I'd rather not say = "any_full_sized_candy_bar" (or spec candy: "kit_kat")
+
+**Q7.** Once again, "any_full_sized_candy_bar" came top on all of these. However the next top specific candies were:
+
+2015: "reese_s_peanut_butter_cups"
+2016: "kit_kat"
+2017: "reese_s_peanut_butter_cups"
+
+**Q8.** Once again, "any_full_sized_candy_bar" came top on all of these. However the next top specific candies were:
+
+Canada: "kit_kat"
+Other country: ""kit_kat"
+UK: 3-way tie between: "lindt_truffle", "rolos" and "tolberone_something_or_other".
+USA: "reese_s_peanut_butter_cups"
+
+
+#####  **Any other interesting analyses or conclusions you come across.**
+
+Not so much interesting analyses but more what I maybe should have/could have done. In my mind, I thought it was best to keep in the pure candy responses, even if they weren't specifically referring to a type of candy. Maybe I should have cleaned these up and got rid of things referring to other objects or cash for example. However, the real problem is "any_full_sized_candy_bar" as it's a legitimate response but is so generic that it dominates any analysis. I would also consider taking this out. Finally, there were a few types of candies that should probably have been joined with each other (i.e. mary_janes). I don't know why I held back on this, I should probably just have merged them during the data cleaning process.
+

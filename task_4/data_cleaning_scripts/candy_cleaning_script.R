@@ -4,11 +4,16 @@ library(readxl)
 library(here)
 library(janitor)
 
+# Read in the data
+
 y2015_candy_data <- read_xlsx(here::here("raw_data/candy_ranking_data/boing-boing-candy-2015.xlsx"))
 
 y2016_candy_data <- read_xlsx(here::here("raw_data/candy_ranking_data/boing-boing-candy-2016.xlsx"))
 
 y2017_candy_data <- read_xlsx(here::here("raw_data/candy_ranking_data/boing-boing-candy-2017.xlsx"))
+
+
+# Cleaned column headers
 
 cc_y2015_candy_data <-
   clean_names(y2015_candy_data)
@@ -18,6 +23,9 @@ cc_y2016_candy_data <-
 
 cc_y2017_candy_data <-
   clean_names(y2017_candy_data)
+
+
+#Decided on which columns to retain and removed the rest for each dataset
 
 chosen_cols_2015 <-
   cc_y2015_candy_data %>% 
@@ -48,6 +56,8 @@ chosen_cols_2017 <-
   )
 
 
+# Added variables for the year of observation and also added an id number for each respondent
+
 cc_id_2015 <-
   chosen_cols_2015 %>%
   filter_all(any_vars(!is.na(.))) %>%
@@ -66,6 +76,8 @@ cc_id_2017 <-
   mutate(year = 2017) %>%
   tibble::rowid_to_column("id")
 
+
+#Pivoted each of the datasets individually
 
 cc_pivot_2015 <-
   cc_id_2015 %>%
@@ -93,6 +105,8 @@ cc_pivot_2017 <-
   mutate(candy_type = str_remove(candy_type, fixed("q6_")))
 
 
+#Renamed common variables so that these would automatically merge during any join process
+
 cc_pivot_2015_rename <-
   cc_pivot_2015 %>% 
   rename(
@@ -119,15 +133,21 @@ cc_pivot_2017_rename <-
   )
 
 
+#Bound the rows of the three datasets to make one single dataset
+
 joined_candy <-
   bind_rows(cc_pivot_2015_rename, cc_pivot_2016_rename, cc_pivot_2017_rename)
 
+
+#Converted all ages to integers and removed any values out with a reasonable range
 
 jc_age_done <-
   joined_candy %>% 
   mutate(age = as.integer(age)) %>% 
   mutate(age = replace(age, age < 4 | age > 120, NA))
 
+
+#After noticing several age-like values in the country column, I manually replace corresponding age values which were previously NAs.
 
 jc_age_extras <-
   jc_age_done %>% 
@@ -144,6 +164,8 @@ jc_age_extras <-
     age = replace(age, id == 728 & year == 2017, 45),
   )
 
+
+#After trying and failing to find a more elegant solution, I ended up renaming the country names in a pretty cumbersome manner. 
 
 clean_candy_complete <-
   jc_age_extras %>%
@@ -176,10 +198,15 @@ clean_candy_complete <-
     )
   )
 
+
+#I selected the columns I wanted in order and arranged by year and id. 
+
 clean_candy_complete <-
   clean_candy_complete %>%
   select(id, year, country, age, gender, going_out, candy_type, rating) %>%
   arrange(desc(year), id)
+
+#Wrote a csv file with the clean data
 
 write_csv(clean_candy_complete, (here::here("clean_data/clean_candy_data.csv")))
 
