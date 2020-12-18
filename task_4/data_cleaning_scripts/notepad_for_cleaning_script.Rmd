@@ -394,7 +394,7 @@ Right, now that we've got the join done, let's go through each of the columns an
 
 ```{r}
 joined_candy %>%
-  distinct(age)
+  distinct(gender)
 ```
 
 ```{r}
@@ -462,7 +462,7 @@ jc_age_done %>%
 
 ```{r}
 jc_age_done %>%
-  distinct(country)
+  distinct(gender)
 ```
 
 ```{r}
@@ -520,7 +520,7 @@ jc_age_extras
 
 ```{r}
 jc_age_extras %>%
-  distinct(country)
+  distinct(gender)
 ```
 
 ```{r}
@@ -561,7 +561,7 @@ jc_age_extras %>%
 
 ```{r}
 clean_candy_complete %>%
-  distinct(country)
+  distinct(gender)
 ```
 
 ```{r}
@@ -572,6 +572,11 @@ clean_candy_complete %>%
 
 clean_candy_complete
 ```
+```{r}
+clean_candy_complete %>%
+distinct(gender)
+```
+
 
 ```{r}
 write_csv(clean_candy_complete, (here::here("clean_data/clean_candy_script.csv")))

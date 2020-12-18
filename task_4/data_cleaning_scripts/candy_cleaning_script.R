@@ -179,6 +179,7 @@ clean_candy_complete <-
 clean_candy_complete <-
   clean_candy_complete %>%
   select(id, year, country, age, gender, going_out, candy_type, rating) %>%
-  arrange(year, id)
+  arrange(desc(year), id)
 
-write_csv(clean_candy_complete, (here::here("clean_data/clean_candy_script.csv")))
+write_csv(clean_candy_complete, (here::here("clean_data/clean_candy_data.csv")))
+
